@@ -1,0 +1,94 @@
+#Environment Configuration
+poc-client-01: 
+   defaultBranch: "develop_"
+   UHGBusinessUnit: "poc"
+   UHGBusinessUnitClient: "client"
+   UHGEnvironment: "01"
+   tfContainerName: poc-client
+   tfResourceGroupName: terraform-rg
+   tfStorageAccountName: flextfdeploy001
+   AZURE_CREDENTIALS_ID: "AzureNonProd_SP"
+   azClientId: "20977888-55f1-4cc2-9099-667c8988b33d"
+   azTenantId: "db05faca-c82a-4b9d-b9c5-0f64b6755421"
+   azSubscriptionId: "86bf2965-3b4d-4a48-82ad-b2c5aa11dfa8"
+   mySqlAdminUser: "flexadmin"
+   azureRegion: "eastus2"
+   resourceSuffix: "pocclient01"
+   hostName: "client01.poc.flex-nonprod.optum.com"
+   resourceGroupName: rg-poc-client-01
+   configFolder: "POC/Client/POC01/"
+   platformResourceGroupName: rg-poc-flex-01
+   platformResourceSuffix: pocflex01
+   dnsZoneName: "flex-nonprod.optum.com"
+   namespace: "poc-client01"
+   devvm_support_enabled: true
+   grafana_ip: "52.232.213.100"
+   grafana_enabled: true
+   appGatewaySubnet: "10.2.0.0/16"
+  # emailTo: "FHIRPill@ds.uhc.com, TransFHIRmers@ds.uhc.com, FHIRomaniacs@ds.uhc.com"
+   deployments: 
+     authz:
+       healthcheck: '"/"'
+       authz: 
+          subdomain: authz
+          trafficmangersubdomain: poctm.authz
+       healthx: 
+         subdomain: healthx.authz
+         trafficmangersubdomain: poctm.healthx.authz
+       hsid: 
+         subdomain: hsid.authz
+         trafficmangersubdomain: poctm.hsid.authz
+       rmhp: 
+         subdomain: rmhp.authz
+         trafficmangersubdomain: poctm.rmhp.authz
+       sandbox: 
+         subdomain: sandbox.authz
+         trafficmangersubdomain: poctm.sandbox.authz
+       sierra: 
+         subdomain: sierra.authz
+         trafficmangersubdomain: poctm.sierra.authz
+     fhir:
+       healthcheck: '"/actuator/health"'
+       fhir:
+         subdomain: fhir
+         trafficmangersubdomain: poctm.fhir      	
+       healthx: 
+         subdomain: healthx.fhir
+         trafficmangersubdomain: poctm.healthx.fhir
+       hsid: 
+         subdomain: hsid.fhir
+         trafficmangersubdomain: poctm.hsid.fhir
+       rmhp: 
+         subdomain: rmhp.fhir
+         trafficmangersubdomain: poctm.rmhp.fhir
+       sandbox: 
+         subdomain: sandbox.fhir
+         trafficmangersubdomain: poctm.sandbox.fhir
+       sierra: 
+         subdomain: sierra.fhir
+         trafficmangersubdomain: poctm.sierra.fhir
+     msid: 
+       healthcheck: '"/actuator/health"'
+       msid: 
+         subdomain: msid
+         trafficmangersubdomain: poctm.msid
+     optumid: 
+       healthcheck: '"/actuator/health"'
+       optumid:
+         subdomain: optumid
+         trafficmangersubdomain: poctm.optumid
+     portal: 
+       healthcheck: '"/"'
+       portal:
+         subdomain: portal
+         trafficmangersubdomain: poctm.portal
+     portalapi: 
+       healthcheck: '"/actuator/health"'
+       portalapi:
+         subdomain: portalapi
+         trafficmangersubdomain: poctm.portalapi
+     registration: 
+       healthcheck: '"/actuator/health"'
+       registration:
+         subdomain: registration
+         trafficmangersubdomain: poctm.registration
