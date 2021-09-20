@@ -1,0 +1,1439 @@
+"00_TC031A_TRR_CMS_IN_FTP": {
+  "Type": "Job:FileTransfer",
+  "ConnectionProfileDualEndpoint": "MIWCMS01V_ADVCASFTP_BASECTM",
+  "SubApplication": "00",
+  "EndFolder": true,
+  "Host": "10.10.3.144",
+  "RunAs": "MIWCMS01V_ADVCASFTP_BASECTM",
+  "Priority": "Medium",
+  "CreatedBy": "deploy_tst_adm",
+  "Application": "TESTC",
+  "Variables": [
+	{
+	  "FTP-LOSTYPE": "Windows"
+	},
+	{
+	  "FTP-CONNTYPE1": "LOCAL"
+	},
+	{
+	  "FTP-LHOST": "MIWCMS01v"
+	},
+	{
+	  "FTP-LUSER": "ikaservices\\ctmagnt"
+	},
+	{
+	  "FTP-ROSTYPE": "Unix"
+	},
+	{
+	  "FTP-CONNTYPE2": "SFTP"
+	},
+	{
+	  "FTP-RHOST": "10.120.19.7"
+	},
+	{
+	  "FTP-RUSER": "BASE_ctm"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT1": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL1": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL1": "30"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT2": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL2": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL2": "30"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT3": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL3": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL3": "30"
+	},
+	{
+	  "FTP-NEWNAME3": "D:\\cms\\TEST\\incoming\\Archive\\Client_00\\$$AFTFILE_ALL$$_%%$ODATE.%%TIME"
+	},
+	{
+	  "FTP-SRC_ACT_FAIL3": "1"
+	}
+  ],
+  "FileTransfers": [
+	{
+	  "ABSTIME": "0",
+	  "VERNUM": "0",
+	  "Dest": "/ENROLLMENT/TEST/OUTBOUND/CMS_FILES/",
+	  "SRCOPT": "0",
+	  "TransferType": "Binary",
+	  "CASEIFS": "0",
+	  "DSTOPT": "0",
+	  "RECURSIVE": "0",
+	  "TransferOption": "SrcToDest",
+	  "Src": "D:\\cms\\TEST\\incoming\\Client_00\\*.*",
+	  "TIMELIMIT": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "NULLFLDS": "0",
+	  "TRIM": "1",
+	  "IF_EXIST": "0",
+	  "UNIQUE": "0"
+	},
+	{
+	  "ABSTIME": "0",
+	  "VERNUM": "0",
+	  "Dest": "/INTERNAL/TEST/00_TC031BA1/",
+	  "SRCOPT": "0",
+	  "TransferType": "Binary",
+	  "CASEIFS": "0",
+	  "DSTOPT": "0",
+	  "RECURSIVE": "0",
+	  "TransferOption": "SrcToDest",
+	  "Src": "D:\\cms\\TEST\\incoming\\Client_00\\*.*",
+	  "TIMELIMIT": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "NULLFLDS": "0",
+	  "TRIM": "1",
+	  "IF_EXIST": "0",
+	  "UNIQUE": "0"
+	},
+	{
+	  "ABSTIME": "0",
+	  "VERNUM": "0",
+	  "Dest": "/INTERNAL/TEST/FROM_CMS/",
+	  "SRCOPT": "3",
+	  "TransferType": "Binary",
+	  "CASEIFS": "0",
+	  "DSTOPT": "0",
+	  "RECURSIVE": "0",
+	  "TransferOption": "SrcToDest",
+	  "Src": "D:\\cms\\TEST\\incoming\\Client_00\\*.*",
+	  "TIMELIMIT": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "NULLFLDS": "0",
+	  "TRIM": "1",
+	  "IF_EXIST": "0",
+	  "UNIQUE": "0"
+	}
+  ],
+  "RerunSpecificTimes": {
+	"At": [
+	  "0400",
+	  "1400"
+	],
+	"Tolerance": "30"
+  },
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"FromTime": "0400",
+	"DaysRelation": "OR",
+	"SpecificDates": []
+  },
+  "Notify:ExecutionTime_19": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_20": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:Output_21": {
+	"Type": "If:Output",
+	"Code": "*Transferred*Ended OK*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_22": {
+	"Type": "If:Output",
+	"Code": "*No matching files for pattern*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%WARN",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%WARNB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_23": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031A-ENDED"
+	  }
+	]
+  }
+},
+"00_TC031B_TRR_IN_FTP": {
+  "Type": "Job:FileTransfer",
+  "ConnectionProfileDualEndpoint": "ZTWBASEUTL01_ADVCASFTP_BASE",
+  "SubApplication": "00",
+  "EndFolder": true,
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "RunAs": "ZTWBASEUTL01_ADVCASFTP_BASE",
+  "Priority": "Medium",
+  "CreatedBy": "deploy_tst_adm",
+  "Application": "TESTC",
+  "Variables": [
+	{
+	  "FTP-LOSTYPE": "Windows"
+	},
+	{
+	  "FTP-CONNTYPE1": "LOCAL"
+	},
+	{
+	  "FTP-LHOST": "Local"
+	},
+	{
+	  "FTP-LUSER": "ENTCORECLOUD\\BASE_TST_CTM"
+	},
+	{
+	  "FTP-ROSTYPE": "Unix"
+	},
+	{
+	  "FTP-CONNTYPE2": "SFTP"
+	},
+	{
+	  "FTP-RHOST": "sftp.advantasure.com"
+	},
+	{
+	  "FTP-RUSER": "BASE_ctm"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT1": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL1": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL1": "30"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT2": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL2": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL2": "30"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT3": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL3": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL3": "30"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT4": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL4": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL4": "30"
+	},
+	{
+	  "FTP-DEST_NEWNAME4": "$$AFTFILE_ALL$$_%%$ODATE.%%TIME"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT5": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL5": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL5": "30"
+	},
+	{
+	  "FTP-SRC_ACT_FAIL5": "1"
+	},
+	{
+	  "FTP-CM_VER": "8.2.0"
+	}
+  ],
+  "FileTransfers": [
+	{
+	  "TransferType": "Binary",
+	  "TransferOption": "DestToSrc",
+	  "Src": "F:\\ControlMJobs\\TESTC\\Billing\\BASE\\MMR\\Inbound\\",
+	  "Dest": "/INTERNAL/TEST/FROM_CMS/FH????.MONMEMD.D*",
+	  "TIMELIMIT": "0",
+	  "ABSTIME": "0",
+	  "SRCOPT": "0",
+	  "IF_EXIST": "0",
+	  "DSTOPT": "0",
+	  "UNIQUE": "0",
+	  "RECURSIVE": "0",
+	  "TRIM": "1",
+	  "NULLFLDS": "0",
+	  "VERNUM": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "CASEIFS": "0"
+	},
+	{
+	  "TransferType": "Binary",
+	  "TransferOption": "DestToSrc",
+	  "Src": "F:\\ControlMJobs\\TESTC\\Billing\\BASE\\MPWR\\Inbound\\",
+	  "Dest": "/INTERNAL/TEST/FROM_CMS/RH????.MPWRD.D*",
+	  "TIMELIMIT": "0",
+	  "ABSTIME": "0",
+	  "SRCOPT": "0",
+	  "IF_EXIST": "0",
+	  "DSTOPT": "0",
+	  "UNIQUE": "0",
+	  "RECURSIVE": "0",
+	  "TRIM": "1",
+	  "NULLFLDS": "0",
+	  "VERNUM": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "CASEIFS": "0"
+	},
+	{
+	  "TransferType": "Binary",
+	  "TransferOption": "DestToSrc",
+	  "Src": "F:\\ControlMJobs\\Temp\\00_TC031BA\\",
+	  "Dest": "/INTERNAL/TEST/FROM_CMS/*.*",
+	  "TIMELIMIT": "0",
+	  "ABSTIME": "0",
+	  "SRCOPT": "0",
+	  "IF_EXIST": "0",
+	  "DSTOPT": "0",
+	  "UNIQUE": "0",
+	  "RECURSIVE": "0",
+	  "TRIM": "1",
+	  "NULLFLDS": "0",
+	  "VERNUM": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "CASEIFS": "0"
+	},
+	{
+	  "TransferType": "Binary",
+	  "TransferOption": "DestToSrc",
+	  "Src": "F:\\EnrollmentFiles\\Feeds\\Archive\\Incoming\\",
+	  "Dest": "/INTERNAL/TEST/FROM_CMS/*.*",
+	  "TIMELIMIT": "0",
+	  "ABSTIME": "0",
+	  "SRCOPT": "0",
+	  "IF_EXIST": "0",
+	  "DSTOPT": "1",
+	  "UNIQUE": "0",
+	  "RECURSIVE": "0",
+	  "TRIM": "1",
+	  "NULLFLDS": "0",
+	  "VERNUM": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "CASEIFS": "0"
+	},
+	{
+	  "TransferType": "Binary",
+	  "TransferOption": "DestToSrc",
+	  "Src": "F:\\EnrollmentFiles\\Feeds\\Production\\Incoming\\",
+	  "Dest": "/INTERNAL/TEST/FROM_CMS/*.*",
+	  "TIMELIMIT": "0",
+	  "ABSTIME": "0",
+	  "SRCOPT": "1",
+	  "IF_EXIST": "0",
+	  "DSTOPT": "0",
+	  "UNIQUE": "0",
+	  "RECURSIVE": "0",
+	  "TRIM": "1",
+	  "NULLFLDS": "0",
+	  "VERNUM": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "CASEIFS": "0"
+	}
+  ],
+  "RerunSpecificTimes": {
+	"At": [
+	  "1400",
+	  "0400"
+	],
+	"Tolerance": "30"
+  },
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"DaysRelation": "OR",
+	"SpecificDates": []
+  },
+  "Notify:ExecutionTime_26": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_27": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:Output_28": {
+	"Type": "If:Output",
+	"Code": "*Transferred*Ended OK*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_29": {
+	"Type": "If:Output",
+	"Code": "*No matching files for pattern*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%WARN",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%WARNB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_30": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031A-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031C-GO"
+	  },
+	  {
+		"Event": "00_TC031B-ENDED"
+	  },
+	  {
+		"Event": "00_TC031BA-GO"
+	  },
+	  {
+		"Event": "00_TC031BA3-GO"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031A-ENDED"
+	  }
+	]
+  }
+},
+"00_TC031BA_PROCESS_BATCH_RESPONSE_BAT": {
+  "Type": "Job:Command",
+  "SubApplication": "00",
+  "Priority": "Medium",
+  "EndFolder": true,
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "Command": "cd /d F:\\CoreJobs\\App\\PGPFileTool\\     && decrypt.bat     && timeout 10   && F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\PROCESS_BATCH_RESPONSE\\1_Process_Batch_Response_Files.bat",
+  "RerunSpecificTimes": {
+	"At": [
+	  "0400",
+	  "1400"
+	],
+	"Tolerance": "30"
+  },
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "CC": "%%CTM_DL;%%CTM_FAIL_DL",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031BA-GO"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031BA-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031BA-GO"
+	  }
+	]
+  }
+},
+"00_TC031BA3_BASE_STG_CMS_RQ_SFTP_OUT": {
+  "Type": "Job:FileTransfer",
+  "ConnectionProfileDualEndpoint": "ZTWBASEUTL01_ADVRANDQSFTP_BASE",
+  "SubApplication": "00",
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "CreatedBy": "userKO",
+  "RunAs": "ZTWBASEUTL01_ADVRANDQSFTP_BASE",
+  "Application": "TESTC",
+  "Variables": [
+	{
+	  "FTP-LOSTYPE": "Windows"
+	},
+	{
+	  "FTP-CONNTYPE1": "LOCAL"
+	},
+	{
+	  "FTP-LHOST": "Local"
+	},
+	{
+	  "FTP-LUSER": "ENTCORECLOUD\\BASE_TST_CTM"
+	},
+	{
+	  "FTP-ROSTYPE": "Unix"
+	},
+	{
+	  "FTP-CONNTYPE2": "SFTP"
+	},
+	{
+	  "FTP-RHOST": "sftp2.advantasure.com"
+	},
+	{
+	  "FTP-RUSER": "CoreAdminBASE"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT1": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL1": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL1": "30"
+	},
+	{
+	  "FTP-SRC_ACT_FAIL1": "1"
+	},
+	{
+	  "FTP-CM_VER": "8.2.0"
+	}
+  ],
+  "FileTransfers": [
+	{
+	  "ABSTIME": "0",
+	  "VERNUM": "0",
+	  "Dest": "/FromCoreAdmin/",
+	  "SRCOPT": "1",
+	  "TransferType": "Binary",
+	  "CASEIFS": "0",
+	  "DSTOPT": "0",
+	  "RECURSIVE": "0",
+	  "TransferOption": "SrcToDest",
+	  "Src": "F:\\ControlMJobs\\Temp\\00_TC031BA\\*.*",
+	  "TIMELIMIT": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "NULLFLDS": "0",
+	  "TRIM": "1",
+	  "IF_EXIST": "0",
+	  "UNIQUE": "0"
+	}
+  ],
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_13": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThan",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_14": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThan",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:Output_15": {
+	"Type": "If:Output",
+	"Code": "*Transfer*Ended OK*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "%%CTM_DL",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_16": {
+	"Type": "If:Output",
+	"Code": "*No matching files for pattern*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%WARN",
+	  "To": "%%CTM_DL",
+	  "Message": "%%WARNB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_17": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Action:SetToNotOK_0": {
+	  "Type": "Action:SetToNotOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "%%55_FAIL_STG_DL",
+	  "CC": "%%CTM_DL;%%CTM_FAIL_DL",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031BA3-GO"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031BA3-GO"
+	  }
+	]
+  }
+},
+"00_TC031C_CMSFILES_BASE_OUT_FTP": {
+  "Type": "Job:FileTransfer",
+  "ConnectionProfileDualEndpoint": "ADVCASFTP_COVANTAGE_BASE",
+  "SubApplication": "00",
+  "Priority": "Medium",
+  "EndFolder": true,
+  "Host": "zuwushdftp01c.entcorecloud.com",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "ADVCASFTP_COVANTAGE_BASE",
+  "Application": "TESTC",
+  "Variables": [
+	{
+	  "FTP-LOSTYPE": "Unix"
+	},
+	{
+	  "FTP-CONNTYPE1": "SFTP"
+	},
+	{
+	  "FTP-LHOST": "sftp.advantantasure.com"
+	},
+	{
+	  "FTP-LUSER": "BASE_ctm"
+	},
+	{
+	  "FTP-ROSTYPE": "Unix"
+	},
+	{
+	  "FTP-CONNTYPE2": "SFTP"
+	},
+	{
+	  "FTP-RHOST": "10.120.19.6"
+	},
+	{
+	  "FTP-RUSER": "advantasure_BASE"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT1": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL1": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL1": "30"
+	},
+	{
+	  "FTP-SRC_ACT_FAIL1": "1"
+	},
+	{
+	  "FTP-CM_VER": "8.2.0"
+	}
+  ],
+  "FileTransfers": [
+	{
+	  "ABSTIME": "0",
+	  "VERNUM": "0",
+	  "Dest": "/TEST/To_Covantage/",
+	  "SRCOPT": "1",
+	  "TransferType": "Binary",
+	  "CASEIFS": "0",
+	  "DSTOPT": "0",
+	  "RECURSIVE": "0",
+	  "TransferOption": "SrcToDest",
+	  "Src": "/ENROLLMENT/TEST/OUTBOUND/CMS_FILES/*.*",
+	  "TIMELIMIT": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "NULLFLDS": "0",
+	  "TRIM": "1",
+	  "IF_EXIST": "0",
+	  "UNIQUE": "0"
+	}
+  ],
+  "RerunSpecificTimes": {
+	"At": [
+	  "0400",
+	  "1400"
+	],
+	"Tolerance": "30"
+  },
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_13": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_14": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:Output_15": {
+	"Type": "If:Output",
+	"Code": "*Transferred*Ended OK*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_16": {
+	"Type": "If:Output",
+	"Code": "*No matching files for pattern*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%WARN",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%WARNB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_17": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031C-GO"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031C-GO"
+	  }
+	]
+  }
+},
+"00_TC031ZAA_TRR_CHECK_FILE_EXIST_BAT": {
+  "Type": "Job:Command",
+  "SubApplication": "00",
+  "Priority": "Medium",
+  "EndFolder": true,
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "Command": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\PROCESS_TRR\\1_Check_File_Exists.bat",
+  "RerunSpecificTimes": {
+	"At": [
+	  "0400",
+	  "1400"
+	],
+	"Tolerance": "30"
+  },
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "*File Not found for TRR Processing*",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%WARN",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%WARNB",
+	  "AttachOutput": true
+	},
+	"Action:SetToOK_1": {
+	  "Type": "Action:SetToOK"
+	},
+	"Event:Delete_2": {
+	  "Type": "Event:Delete",
+	  "Event": "00_TC031ZAA-ENDED"
+	}
+  },
+  "IfBase:Folder:Output_4": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "CC": "%%CTM_DL;%%CTM_FAIL_DL",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031B-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAA-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031B-ENDED"
+	  }
+	]
+  }
+},
+"00_TC031ZAB_TRR_PROCESS_BAT": {
+  "Type": "Job:Command",
+  "SubApplication": "00",
+  "Priority": "Medium",
+  "EndFolder": true,
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "Command": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\PROCESS_TRR\\2_Process_TRR_Files.bat",
+  "RerunSpecificTimes": {
+	"At": [
+	  "0400",
+	  "1400"
+	],
+	"Tolerance": "30"
+  },
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "CC": "%%CTM_DL;%%CTM_FAIL_DL",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAA-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAB-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAA-ENDED"
+	  }
+	]
+  }
+},
+"00_TC031ZAC_TRR_SUMMARY_REPORT_BAT": {
+  "Type": "Job:Command",
+  "SubApplication": "00",
+  "Priority": "Medium",
+  "EndFolder": true,
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "Command": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\PROCESS_TRR\\3_TRR_Summary_Report.bat",
+  "RerunSpecificTimes": {
+	"At": [
+	  "0400",
+	  "1400"
+	],
+	"Tolerance": "30"
+  },
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "CC": "%%CTM_DL;%%CTM_FAIL_DL",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAB-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAC-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAB-ENDED"
+	  }
+	]
+  }
+},
+"00_TC031ZAD_TRR_GEN_TRC_PROCESS_BAT": {
+  "Type": "Job:Command",
+  "SubApplication": "00",
+  "Priority": "Medium",
+  "EndFolder": true,
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "Command": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\PROCESS_TRR\\4_Generate_TRC_Processing_Details.bat",
+  "RerunSpecificTimes": {
+	"At": [
+	  "0400",
+	  "1400"
+	],
+	"Tolerance": "30"
+  },
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAC-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAD-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAC-ENDED"
+	  }
+	]
+  }
+},
+"00_TC031ZAE_TRR_GEN_AVOIDABLE_REPORT_BAT": {
+  "Type": "Job:Command",
+  "SubApplication": "00",
+  "Priority": "Medium",
+  "EndFolder": true,
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "Command": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\PROCESS_TRR\\5_Generate_Avoidable_TRR_Report.bat",
+  "RerunSpecificTimes": {
+	"At": [
+	  "0400",
+	  "1400"
+	],
+	"Tolerance": "30"
+  },
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAD-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAE-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAD-ENDED"
+	  }
+	]
+  }
+},
+"00_TC031ZAF_TRR_4RX_TIMELESS_SUBMISSION_BAT": {
+  "Type": "Job:Command",
+  "SubApplication": "00",
+  "Priority": "Medium",
+  "EndFolder": true,
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "CreatedBy": "userSF",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "Command": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\PROCESS_TRR\\6_4Rx_Timeliness_Submission.bat",
+  "RerunSpecificTimes": {
+	"At": [
+	  "0400",
+	  "1400"
+	],
+	"Tolerance": "30"
+  },
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "CC": "%%CTM_DL;%%CTM_FAIL_DL",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAE-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAF-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC031ZAE-ENDED"
+	  }
+	]
+  }
+}

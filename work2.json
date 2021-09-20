@@ -1,0 +1,853 @@
+"00_TC011A_ACR_PRE_STATUS_UPDATE_BAT": {
+  "Type": "Job:Script",
+  "SubApplication": "00",
+  "EndFolder": true,
+  "FileName": "1_PreAccretion_Status_Updates.bat",
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "FilePath": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\GENERATE_ACCRETIONS",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"FromTime": "1710",
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011A-ENDED"
+	  }
+	]
+  }
+},
+"00_TC011B_ACR_AUTO_ENROLLMENT_BAT": {
+  "Type": "Job:Script",
+  "SubApplication": "00",
+  "EndFolder": true,
+  "FileName": "2_Auto_Enrollment.bat",
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "FilePath": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\GENERATE_ACCRETIONS",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011A-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011B-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011A-ENDED"
+	  }
+	]
+  }
+},
+"00_TC011C_ACR_FACILITATED_ENROLLMENT_BAT": {
+  "Type": "Job:Script",
+  "SubApplication": "00",
+  "EndFolder": true,
+  "FileName": "3_Facilitated_Enrollment.bat",
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "FilePath": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\GENERATE_ACCRETIONS",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011B-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011C-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011B-ENDED"
+	  }
+	]
+  }
+},
+"00_TC011D_ACR_AUTO_UPDATE_LEP_LETTER_BAT": {
+  "Type": "Job:Script",
+  "SubApplication": "00",
+  "EndFolder": true,
+  "FileName": "4_Auto_Update_LEP_Letter.bat",
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "FilePath": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\GENERATE_ACCRETIONS",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011C-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011D-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011C-ENDED"
+	  }
+	]
+  }
+},
+"00_TC011E_ACR_GENERATE_ACCRETION_BAT": {
+  "Type": "Job:Script",
+  "SubApplication": "00",
+  "EndFolder": true,
+  "FileName": "5_Generate_Accretions.bat",
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "FilePath": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\GENERATE_ACCRETIONS",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011D-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011E-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011D-ENDED"
+	  }
+	]
+  }
+},
+"00_TC011F_ACR_MONTHLY_SNAPSHOT_BAT": {
+  "Type": "Job:Script",
+  "SubApplication": "00",
+  "EndFolder": true,
+  "FileName": "6_Monthly_Snap_Shot.bat",
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "FilePath": "F:\\ControlMJobs\\TESTC\\Enrollment\\BASE\\GENERATE_ACCRETIONS",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "BASE_TST_CTM",
+  "Application": "TESTC",
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011E-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011F-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011E-ENDED"
+	  }
+	]
+  }
+},
+"00_TC011G_ACR_OUT_FTP": {
+  "Type": "Job:FileTransfer",
+  "ConnectionProfileDualEndpoint": "ZTWBASEUTL01_ADVCASFTP_BASE",
+  "SubApplication": "00",
+  "Priority": "Medium",
+  "EndFolder": true,
+  "Host": "ztwBASEutl01c.entcorecloud.com",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "ZTWBASEUTL01_ADVCASFTP_BASE",
+  "Application": "TESTC",
+  "Variables": [
+	{
+	  "FTP-LOSTYPE": "Windows"
+	},
+	{
+	  "FTP-CONNTYPE1": "LOCAL"
+	},
+	{
+	  "FTP-LHOST": "Local"
+	},
+	{
+	  "FTP-LUSER": "ENTCORECLOUD\\BASE_TST_CTM"
+	},
+	{
+	  "FTP-ROSTYPE": "Unix"
+	},
+	{
+	  "FTP-CONNTYPE2": "SFTP"
+	},
+	{
+	  "FTP-RHOST": "sftp.advantasure.com"
+	},
+	{
+	  "FTP-RUSER": "BASE_ctm"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT1": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL1": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL1": "30"
+	},
+	{
+	  "FTP-NEWNAME1": "F:\\EnrollmentFiles\\Feeds\\Archive\\Outgoing\\$$AFTFILE_ALL$$_%%$ODATE.%%TIME"
+	},
+	{
+	  "FTP-SRC_ACT_FAIL1": "1"
+	},
+	{
+	  "FTP-CM_VER": "8.2.0"
+	}
+  ],
+  "FileTransfers": [
+	{
+	  "ABSTIME": "0",
+	  "VERNUM": "0",
+	  "Dest": "/INTERNAL/TEST/TO_CMS/",
+	  "SRCOPT": "3",
+	  "TransferType": "Binary",
+	  "CASEIFS": "0",
+	  "DSTOPT": "0",
+	  "RECURSIVE": "0",
+	  "TransferOption": "SrcToDest",
+	  "Src": "F:\\EnrollmentFiles\\Feeds\\Production\\Outgoing\\*P#EFT*",
+	  "TIMELIMIT": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "NULLFLDS": "0",
+	  "TRIM": "1",
+	  "IF_EXIST": "0",
+	  "UNIQUE": "0"
+	}
+  ],
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_14": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_15": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:Output_16": {
+	"Type": "If:Output",
+	"Code": "*Transferred*Ended OK*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_17": {
+	"Type": "If:Output",
+	"Code": "*No matching files for pattern*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%WARN",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%WARNB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_18": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011F-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011G-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011F-ENDED"
+	  }
+	]
+  }
+},
+"00_TC011H_ACR_CMS_OUT_FTP": {
+  "Type": "Job:FileTransfer",
+  "ConnectionProfileDualEndpoint": "MIWCMS01V_ADVCASFTP_BASECTM",
+  "SubApplication": "00",
+  "Priority": "Medium",
+  "EndFolder": true,
+  "Host": "10.10.3.144",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "MIWCMS01V_ADVCASFTP_BASECTM",
+  "Application": "TESTC",
+  "Variables": [
+	{
+	  "FTP-LOSTYPE": "Windows"
+	},
+	{
+	  "FTP-CONNTYPE1": "LOCAL"
+	},
+	{
+	  "FTP-LHOST": "MIWCMS01v"
+	},
+	{
+	  "FTP-LUSER": "ikaservices\\ctmagnt"
+	},
+	{
+	  "FTP-ROSTYPE": "Unix"
+	},
+	{
+	  "FTP-CONNTYPE2": "SFTP"
+	},
+	{
+	  "FTP-RHOST": "10.120.19.7"
+	},
+	{
+	  "FTP-RUSER": "BASE_ctm"
+	},
+	{
+	  "FTP-TIMELIMIT_UNIT1": "1"
+	},
+	{
+	  "FTP-OVERRIDE_WATCH_INTERVAL1": "0"
+	},
+	{
+	  "FTP-WATCH_INTERVAL1": "30"
+	},
+	{
+	  "FTP-SRC_ACT_FAIL1": "1"
+	}
+  ],
+  "FileTransfers": [
+	{
+	  "ABSTIME": "0",
+	  "VERNUM": "0",
+	  "Dest": "/INTERNAL/TEST/TO_CMS/P#EFT*RH*",
+	  "SRCOPT": "1",
+	  "TransferType": "Binary",
+	  "CASEIFS": "0",
+	  "DSTOPT": "0",
+	  "RECURSIVE": "0",
+	  "TransferOption": "DestToSrc",
+	  "Src": "D:\\cms\\TEST\\outgoing\\Client_00\\",
+	  "TIMELIMIT": "0",
+	  "EXCLUDE_WILDCARD": "0",
+	  "NULLFLDS": "0",
+	  "TRIM": "1",
+	  "IF_EXIST": "0",
+	  "UNIQUE": "0"
+	}
+  ],
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_12": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_13": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:Output_14": {
+	"Type": "If:Output",
+	"Code": "*Transferred*Ended OK*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_15": {
+	"Type": "If:Output",
+	"Code": "*No matching files for pattern*",
+	"Action:SetToOK_0": {
+	  "Type": "Action:SetToOK"
+	},
+	"Mail_1": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%WARN",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%WARNB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_16": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011G-ENDED"
+	  }
+	]
+  },
+  "eventsToAdd": {
+	"Type": "AddEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011H-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011G-ENDED"
+	  }
+	]
+  }
+},
+"00_TC011I_ACR_CMS_CNNCTD_OUT_BAT": {
+  "Type": "Job:Command",
+  "SubApplication": "00",
+  "Priority": "Medium",
+  "EndFolder": true,
+  "Host": "10.10.3.144",
+  "CreatedBy": "deploy_tst_adm",
+  "RunAs": "ctmagnt",
+  "Application": "TESTC",
+  "Command": "D:\\CTM_Scripts\\CMS_Submit.bat BASE ACRETION \"D:\\cms\\TEST\\outgoing\\Client_00\" P#EFT.ON.MARXTR.RH0000.DYYMMDD.THHMMSST 300 \"D:\\cms\\TEST\\outgoing\\Archive\\Client_00\"",
+  "When": {
+	"WeekDays": [
+	  "ALL"
+	],
+	"MonthDays": [
+	  "ALL"
+	],
+	"SpecificDates": [],
+	"DaysRelation": "OR"
+  },
+  "Notify:ExecutionTime_0": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Destination": "SENDMAIL",
+	"Message": "%%EMAIL_TO %%EMAIL_SUBJECT %%EMAIL_BODY",
+	"Value": "10"
+  },
+  "Notify:ExecutionTime_1": {
+	"Type": "Notify:ExecutionTime",
+	"Criteria": "GreaterThanAverage",
+	"Message": "%%EMAIL_BODY",
+	"Value": "10"
+  },
+  "IfBase:Folder:CompletionStatus_2": {
+	"Type": "If:CompletionStatus",
+	"CompletionStatus": "OK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%SUCC",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%SUCCB",
+	  "AttachOutput": true
+	}
+  },
+  "IfBase:Folder:Output_3": {
+	"Type": "If:Output",
+	"Code": "NOTOK",
+	"Mail_0": {
+	  "Type": "Action:Mail",
+	  "Subject": "%%FAIL",
+	  "To": "ClientName_ENR@advantasure.com",
+	  "Message": "%%FAILB",
+	  "AttachOutput": true
+	}
+  },
+  "eventsToWaitFor": {
+	"Type": "WaitForEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011H-ENDED"
+	  }
+	]
+  },
+  "eventsToDelete": {
+	"Type": "DeleteEvents",
+	"Events": [
+	  {
+		"Event": "00_TC011H-ENDED"
+	  }
+	]
+  }
+}
